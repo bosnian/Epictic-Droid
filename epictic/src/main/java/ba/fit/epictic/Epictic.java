@@ -78,6 +78,25 @@ public class Epictic {
     }
 
     /**
+     * Track event with given name without properties
+     *
+     * @param name          Name of event
+     */
+    public void track(String name){
+        EpicticRecord prop = new EpicticRecord();
+        prop.key = configuration.getKey();
+        EpicticRecordContent content = new EpicticRecordContent();
+        content.properties = new Hashtable<>();
+        content.identifier = retrieveIdentifier();
+        content.name = name;
+        content.base = base;
+        prop.content = content;
+
+        Gson gson = new Gson();
+        this.sendRequest(gson.toJson(prop));
+    }
+
+    /**
      * Track event with given name and properties
      *
      * @param name          Name of event
