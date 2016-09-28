@@ -3,12 +3,10 @@ package ba.fit.epicticdroid;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import org.json.JSONException;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Dictionary;
 import java.util.Hashtable;
+
+import ba.fit.epictic.*;
 
 public class MainActivity extends AppCompatActivity {
 

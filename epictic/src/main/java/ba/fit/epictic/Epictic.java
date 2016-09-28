@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package ba.fit.epicticdroid;
+package ba.fit.epictic;
 
 import android.content.Context;
 import android.util.Log;
