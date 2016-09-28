@@ -41,58 +41,85 @@ Add the dependency:
 	    <version>master</version>
 </dependency>
 ```
+### SBT 
+Add it in your build.sbt at the end of resolvers:
+```java
+resolvers += "jitpack" at "https://jitpack.io"
+```
+Add the dependency:
+```java
+libraryDependencies += "com.github.bosnian" % "Epictic-Droid" % "master"	
+```
 
-## Step 2: Initialize Epictic environment with *key* and *url*
-```javascript
-var tracker = Epic.init("YOUR_URL", "API_KEY");
+### Leiningen
+Add it in your project.clj at the end of repositories:
+```clojure
+:repositories [["jitpack" "https://jitpack.io"]]
+```
+Add the dependency:
+```clojure
+:dependencies [[com.github.bosnian/Epictic-Droid "master"]]	
+```
+
+## Step 2: Initialize Epictic environment with EpicticConfiguration
+```java
+EpicticConfiguration configuration = new EpicticConfiguration("YOUR_API", "YOUR_URL");
+Epictic epic = new  Epictic(getApplicationContext(),configuration);
+
 ```
 
 ## Step 3: Track your events!
-```javascript
-tracker.track("Edit Profile", null);
+```java
+
+epic.track("Edit Profile");
 ```
 
 # Documentation
 ## Initialization
 
 Use shared instance.
-```javascript
-Epic.initShared("YOUR_URL", "API_KEY");
-Epic.track("Edit Profile", null);
+```java
+EpicticConfiguration configuration = new EpicticConfiguration("YOUR_API", "YOUR_URL");
+Epictic.initShared(getApplicationContext(),configuration);
+Epictic.shared.track("Edit Profile");
 ```
 Create one instance, or multiple ones with different environments.
-```javascript
-var tracker = Epic.init("YOUR_URL", "API_KEY");
-var tracker2 = Epic.init("YOUR_URL2", "API_KEY2");
-tracker.track("Edit Profile", null);
-tracker2.track("Troubleshooting", null);
+```java
+EpicticConfiguration configuration = new EpicticConfiguration("YOUR_API", "YOUR_URL");
+
+Epictic.initShared(getApplicationContext(),configuration);
+Epictic.shared.track("Edit Profile");
+
+Epictic epictic = new Epictic(getApplicationContext(),configuration);
+epictic.track("Troubleshooting");
 ```
 
 ## Tracking
 
 Track event without properties.
-```javascript
-tracker.track("Login",null);
+```java
+epictic.track("Login");
 ```
 Track event with properties.
-```javascript
-var properties = {
-  EmailEntered: true,
-  PasswordEntered: false,
-  Success: false 
-}
-tracker.track("Login",properties);
+```java
+Hashtable<String,Object> properties = new Hashtable<>();
+properties.put("EmailEntered",true);
+properties.put("PasswordEntered",false);
+properties.put("Success",false);
+
+epictic.track("Login",properties);
 ```
 
 ### Register properties 
 Register properties once and they will be sent with every request. If you register properties multiple times, properties will be merged in favor of newly added.
-```javascript
-var properties = {
-  Platform: navigator.platform,
-  Browser: navigator.appName,
-  BrowserVersion: navigator.appVersion
-}
-tracker.register(properties);
+```java
+PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+
+Hashtable<String,Object> properties = new Hashtable<>();
+properties.put("AppVersionName",pInfo.versionName);
+properties.put("AppVersionCode",pInfo.versionCode);
+
+epictic.register(properties);
 ```
 ## Copyright & License
  
